@@ -111,6 +111,8 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
+              aria-busy={loading}
+              aria-label={loading ? 'Signing in, please wait' : 'Sign in to your account'}
               className="w-full bg-dynamic-green hover:bg-emerald-green text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Signing in...' : 'Sign In'}

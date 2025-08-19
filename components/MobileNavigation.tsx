@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, PanInfo } from 'framer-motion'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 import { 
   Menu, 
   X, 
@@ -36,7 +37,7 @@ export default function MobileNavigation() {
   const [expandedItems, setExpandedItems] = useState<string[]>([])
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const focusTrapRef = useFocusTrap(isOpen)
 
   useEffect(() => {
     const userData = localStorage.getItem('currentUser')
@@ -70,7 +71,7 @@ export default function MobileNavigation() {
   }
 
   // Swipe to close on the menu panel
-  const handleMenuSwipe = (event: any, info: PanInfo) => {
+  const handleMenuSwipe = (_event: any, info: PanInfo) => {
     if (info.offset.x < -100) {
       setIsOpen(false)
     }
@@ -125,7 +126,9 @@ export default function MobileNavigation() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden fixed top-6 right-4 z-50 p-2 bg-white/10 backdrop-blur-sm rounded-lg"
-        aria-label="Toggle menu"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-nav-panel"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -175,7 +178,11 @@ export default function MobileNavigation() {
 
             {/* Menu Panel */}
             <motion.div
-              ref={menuRef}
+              ref={focusTrapRef}
+              id="mobile-nav-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
@@ -187,19 +194,27 @@ export default function MobileNavigation() {
               className="md:hidden fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-gray-900 to-black z-50 overflow-y-auto"
             >
               {/* Swipe Indicator */}
-              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+              <div className="absolute right-2 top-1/2 -translate-y-1/2" aria-hidden="true">
                 <div className="w-1 h-20 bg-white/20 rounded-full" />
               </div>
 
               <div className="p-6">
                 {/* Logo/Header */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-white">CAG Menu</h2>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                    aria-label="Close navigation menu"
+                    data-close-modal
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                  <h2 className="text-2xl font-bold text-white" id="mobile-nav-title">CAG Menu</h2>
                   <p className="text-sm text-gray-400 mt-1">Swipe left to close</p>
                 </div>
 
                 {/* Navigation Items */}
-                <nav className="space-y-2">
+                <nav className="space-y-2" aria-labelledby="mobile-nav-title">
                   {navItems.map((item) => (
                     <div key={item.href}>
                       {item.children ? (
@@ -207,6 +222,8 @@ export default function MobileNavigation() {
                           <button
                             onClick={() => toggleExpanded(item.label)}
                             className="w-full flex items-center justify-between p-3 text-white hover:bg-white/10 rounded-lg transition-colors"
+                            aria-expanded={expandedItems.includes(item.label)}
+                            aria-controls={`submenu-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                           >
                             <div className="flex items-center">
                               <item.icon className="w-5 h-5 mr-3" />
@@ -229,7 +246,12 @@ export default function MobileNavigation() {
                                 transition={{ duration: 0.2 }}
                                 className="overflow-hidden"
                               >
-                                <div className="ml-8 space-y-1 mt-1">
+                                <div 
+                                  className="ml-8 space-y-1 mt-1"
+                                  id={`submenu-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+                                  role="group"
+                                  aria-label={`${item.label} submenu`}
+                                >
                                   {item.children.map((child) => (
                                     <Link
                                       key={child.href}

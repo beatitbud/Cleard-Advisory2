@@ -26,21 +26,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 255, 255, 0.03) 2px,
-        rgba(0, 255, 255, 0.03) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 255, 255, 0.03) 2px,
-        rgba(0, 255, 255, 0.03) 4px
-      );
+    background: transparent;
     pointer-events: none;
     z-index: 1;
   }
@@ -91,6 +77,38 @@
     100% {
       transform: translateY(-10px);
     }
+  }
+  
+  @keyframes wiggle {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(-3deg);
+    }
+    20% {
+      transform: rotate(3deg);
+    }
+    30% {
+      transform: rotate(-3deg);
+    }
+    40% {
+      transform: rotate(3deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .wiggle-attention {
+    animation: wiggle 0.5s ease-in-out;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: both;
+    animation-play-state: running;
+    animation-timeline: auto;
+    animation-duration: 4s;
   }
   
   /* Ensure content appears above background effects */
@@ -570,4 +588,82 @@
 
 .tilt-3d:hover {
   transform: perspective(1000px) rotateX(10deg) rotateY(-10deg);
+}
+
+/* Professional Navbar Styles */
+.navbar-gradient {
+  background: linear-gradient(to bottom, #1e293b, #000000);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar-shadow {
+  box-shadow: none;
+}
+
+/* Search Bar Glow Effect */
+.search-glow:focus-within {
+  box-shadow: 
+    0 0 0 3px rgba(14, 165, 233, 0.1),
+    0 0 20px rgba(14, 165, 233, 0.2);
+}
+
+/* Navbar Link Hover Effect */
+.nav-link-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent,
+    rgba(16, 185, 129, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.nav-link-hover:hover::before {
+  left: 100%;
+}
+
+/* Home Icon Pulse */
+@keyframes subtle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.home-icon-pulse:hover {
+  animation: subtle-pulse 2s infinite;
+}
+
+/* Get Started Button Shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer-button {
+  background: linear-gradient(
+    90deg,
+    #10B981,
+    #059669,
+    #10B981
+  );
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
 }

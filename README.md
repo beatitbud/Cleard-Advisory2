@@ -141,4 +141,4 @@ For questions or assistance:
 
 ---
 
-© 2025 Cleared Advisory Group - Your Gateway to Opportunities
+© 2025 Cleared Advisory Group - Your Gateway to Opportunities# Cleard-Advisory2
