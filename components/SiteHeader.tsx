@@ -39,7 +39,7 @@ export default async function SiteHeader() {
             </Link>
 
             {/* Right Section */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <MoreMenu links={navLinks} />
               <Link
                 href="/login"
@@ -55,6 +55,10 @@ export default async function SiteHeader() {
                   </div>
                 </div>
               </Link>
+              {/* Theme Toggle */}
+              <div className="ml-2 pl-2 border-l border-slate-700">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
@@ -99,7 +103,7 @@ export default async function SiteHeader() {
           </div>
 
           {/* Right Section - Auth Aware */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             {user ? (
               <>
                 <Link
@@ -131,8 +135,10 @@ export default async function SiteHeader() {
                 </Link>
               </>
             )}
-            {/* Theme Toggle */}
-            <ThemeToggle />
+            {/* Theme Toggle - More Visible */}
+            <div className="ml-2 pl-2 border-l border-slate-700">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </div>

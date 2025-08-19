@@ -1,6 +1,5 @@
 'use client'
 
-import ForceDark from '@/components/ForceDark'
 import Hero from '@/components/Hero'
 import WhoWeServe from '@/components/WhoWeServe'
 import OurProcess from '@/components/OurProcess'
@@ -11,7 +10,6 @@ import CTASection from '@/components/CTASection'
 export default function Home() {
   return (
     <>
-      <ForceDark />
       <Hero />
       <WhoWeServe />
       <OurProcess />
